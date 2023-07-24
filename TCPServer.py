@@ -3,23 +3,39 @@ import socket
 import threading
 
 import StatusCodes
+import ServerResponseUtils
+import ContentTypes
+import GetAndHeadRequestHandler
+
+def read_file(file_path):
+    with open(file_path, "rb") as file:
+        return file.read()
 
 def process_request(client_socket, data_request):
     request_lines = data_request.split(b"\r\n")
 
     method, path, _ = request_lines[0].decode().split(" ")
 
+    response = b""
+    response_body = b""
+
     if method == "GET":
+        response, response_body = GetAndHeadRequestHandler.get_request_handler(path)
+    elif method == "POST":
         print(path)
-    if method == "POST":
-        print(path)
-    if method == "HEAD":
-        print(path)
+    elif method == "HEAD":
+        response, response_body = GetAndHeadRequestHandler.head_request_handler(path)
     else:
-        print("Metodo no implementado")
+        response += ServerResponseUtils.status_line(StatusCodes.STATUS_NOT_IMPLEMENTED, "Not implemented")
+        response += ServerResponseUtils.content_type_header(ContentTypes.PLAIN_TEXT_TYPE)
+        response_body += b"501 Not Implemented"
+        response += ServerResponseUtils.content_length_header(str(len(response_body)))
 
+    response += ServerResponseUtils.header_date()
+    response += ServerResponseUtils.server_header()
+    response += ServerResponseUtils.finish_response()
 
-    client_socket.sendall(b"<html><body><h1>Hello, World!</h1></body></html>")
+    client_socket.sendall(response + response_body)
 
 def process_client(client_socket, client_address):
     with client_socket:
@@ -47,7 +63,7 @@ def init_server(host, port):
 
         except KeyboardInterrupt:
             print("Server morido")
-
+            server_socket.close()
 
 
 if __name__ == "__main__":
