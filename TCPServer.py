@@ -6,6 +6,7 @@ import StatusCodes
 import ServerResponseUtils
 import ContentTypes
 import GetAndHeadRequestHandler
+import PostRequestHandler
 
 def read_file(file_path):
     with open(file_path, "rb") as file:
@@ -22,7 +23,7 @@ def process_request(client_socket, data_request):
     if method == "GET":
         response, response_body = GetAndHeadRequestHandler.get_request_handler(path)
     elif method == "POST":
-        print(path)
+        response, response_body = PostRequestHandler.post_request_handler()
     elif method == "HEAD":
         response, response_body = GetAndHeadRequestHandler.head_request_handler(path)
     else:

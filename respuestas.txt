@@ -1,0 +1,47 @@
+1) Explica brevemente el protocolo HTTP y cómo los
+encabezados son componentes esenciales en las solicitudes
+y respuestas HTTP.
+
+Es el protocolo que se usa para la transmisión de datos en la web y es la 
+base de comunicación entre un navegador web y un servidor web.
+
+Consiste de dos tipos de mensajes:
+    - Solicitudes.
+    - Respuestas.
+
+Los encabezados contienen una descripción de lo que viene en la respuesta y solicitud,
+donde podemos encontrarnos con la versión del protocolo que se esta usando, código e información
+adicional sobre el estatus de la petición, además que se puede contar con encabezados
+adicionales.
+
+
+2) Cual es la diferencia entre los métodos HEAD, GET y POST,
+dé ejemplos de sus diferencias y coméntelas
+
+GET:
+    - Se utiliza para solicitar información al servidor.
+    - Las datos adicionales que se envian en la URL se utilizan como
+      parametros adicionales de consulta.
+
+HEAD:
+    - Similar a GET donde unicamente se reciben los encabezados de la respuesta y con el cuerpo
+      vació.
+    - Se utiliza para verificar la existencia de algún recurso en una página, sin descargar toda la información.
+
+POST:
+    - Se utiliza para enviar datos al servidor de forma más segura, ya que suele enviarse en el cuerpo
+      de la petición.
+    - No se almacena en caché la información.
+
+Ejemplos y comparación:
+
+Por ejemplo si hiciera una petición GET al servidor para consultar la página
+index2.html, el servidor me respondería con los encabezados y el código HTML que contiene esa página.
+
+Por el contrario si hiciera una petición HEAD, al solicitar consultar la misma página, el servidor
+devolvería el cuerpo vacío en la respuesta, y al igual que en GET, me indicaría la longitd del contenido.
+
+En el caso de estas peticiones se puede hacer caching del resultado, caso contrario pasa con POST
+que normalmente se utiliza para enviar datos al servidor de forma segura, solo que en vez de enviar
+la información en la URL como usualmente se haría con GET, estos van dentro del cuerpo de la petición.
+
